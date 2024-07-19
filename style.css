@@ -1,0 +1,192 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+*{
+    font-family: "DM Sans", sans-serif ;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+a{
+    text-decoration: none !important;
+   
+}
+/* ------------------------------------------main-body--------------------------------------- */
+.child-body{
+    height: 98vh !important;
+}
+.container{
+    max-width: 1200px !important;
+}
+.dashbord-sec{
+     background: linear-gradient(149.96deg, #301F81 12.51%, #0F0441 89.53%);
+     color: #FFFFFF;
+
+}
+.content-sec{
+    background: #E9EDF2;
+
+}
+hr{
+    border: 1px solid #FFFFFF2B;
+    width: 100% !important;
+}
+.links{
+    color: #E9EDF2 !important;
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    opacity: .7;
+}
+.links a{
+    color: white !important;
+}
+.search-bar{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    height: 50px;
+    border-radius: 25px;
+
+}
+.s-bar{
+    background-color: #E9EDF2 !important;
+    height: 90% !important;
+    width: 80% !important;
+}
+.nav-block-sec{
+    height: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.add-emp{
+    background: #4318FF !important;
+}
+.table-content{
+    flex: 1 !important;
+}
+.table-content,.employe-detail{
+    background-color: #FFFFFF !important;
+}
+.btn{
+    color: #FFFFFF !important;
+}
+.footer-content{
+    flex: 1;
+    /* border-top: 2px solid black; */
+    border-top: 2px solid #707eae67 !important;
+}
+.footer-content p{
+    margin: 0 !important;
+}
+.dropdown .btn{
+    background-color: #707eae55 !important;
+    border: none !important;
+}
+/* ---------------------------------------------------------------------- */
+/* ---------------------------employee-form------------------------------ */
+:root{
+    --on-clr:#4318FF;
+}
+*{
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+}
+
+body{
+    margin: 0;
+    background: #E9EDF2 !important;
+}
+.fs-6{
+    font-weight: 500 !important;
+}
+.fs-4{
+    font-weight: 700 !important;
+}
+
+.bg-clr{
+    background: #E9EDF2 !important;
+}
+
+.block-1 ,.block-2,.button-block{
+    background-color: white;
+    color: #2B3674;
+}
+.upload{
+    color:var(--on-clr);
+    background-color:#FAFCFE;
+    border:3px dashed rgba(128, 128, 128, 0.4);
+}
+.upload i{
+    font-size: 30px;
+}
+input ::-webkit-input-placeholder{
+    opacity: .5 !important;
+}
+.form-label::after{
+    content: "*";
+    color: red;
+}
+.form-control:focus,.form-select:focus,.form-check-input:focus{
+    box-shadow: none !important;
+    border-color: var(--on-clr) !important;
+}
+.form-check-input:checked{
+    border-color: var(--on-clr) !important;
+    background-color: var(--on-clr) !important;
+}
+.content{
+    padding: 0 !important;
+}
+.save-btn{
+    color: white !important;
+    background-color: var(--on-clr) !important;
+}
+.button-block .btn{
+    font-size: 16px !important;
+}
+.form-control-color{
+    width: 100% !important;
+}
+.form-range::-webkit-slider-thumb{
+    background:var(--on-clr) !important;
+}
+.emp-form-container{
+    max-width: 800px !important;
+}
+.employee-form{
+    display: none;
+}
+/* --------------------------------------------------------------------- */
+/* -------------------------------pop messages----------------------------- */
+.pop-up{
+    height: 300px;
+    width: 250px;
+    background-color: #E9EDF2;
+
+}
+/* --------------------employee page---------------- */
+.employe-detail{
+    max-width: 750px !important;
+}
+.emp-img{
+    border: 8px solid white;
+    max-width: 25% !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+}
+.emp-img-row{
+    margin-top:-90px !important;
+    
+}
+.employe-content{
+    margin: 0 !important;
+}
+.banner-row img{
+    max-height: 200px;
+}
+.detail-card{
+    box-shadow: 0px 9px 20px 0px #7090B01F, 0px 9px 20px 0 #7090B01F;
+}
+.s-text{
+    color: #707EAE;
+}
