@@ -10,6 +10,9 @@ a{
    
 }
 /* ------------------------------------------main-body--------------------------------------- */
+.main-body{
+    position:relative;
+}
 .child-body{
     height: 98vh !important;
 }
@@ -91,7 +94,22 @@ hr{
     box-sizing: border-box;
     font-family: "DM Sans", sans-serif;
 }
+#overlay{
+    position: absolute;
+    top: 0px;
+    left: 0 !important;
+    display: none;
+    background-color: rgba(0,0,0,.8);
+    width: 100vw;
+    height: 98vh;
+    z-index: 1;
 
+}
+.block-1{
+    height: 95vh;
+    overflow: scroll;
+    scrollbar-width: none;
+}
 body{
     margin: 0;
     background: #E9EDF2 !important;
@@ -151,10 +169,20 @@ input ::-webkit-input-placeholder{
     background:var(--on-clr) !important;
 }
 .emp-form-container{
+    z-index: 9;
+    position: absolute;
+    top: -5px;
+    left: 25%;
     max-width: 800px !important;
 }
-.employee-form{
+.emp-form-container{
     display: none;
+}
+.emp-img-icon{
+    /* display: inline-flex; */
+    width: 40px;
+    height: auto;
+    border-radius: 50%;
 }
 /* --------------------------------------------------------------------- */
 /* -------------------------------pop messages----------------------------- */
