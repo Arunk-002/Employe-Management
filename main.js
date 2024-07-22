@@ -6,10 +6,10 @@ async function dataGeter() {
             let employees = await response.json();
             let tableBody = document.getElementById("employee-table");
             let row = '';
-            for (let i = 0; i < employees.length; i++) {
+            for (let i = employees.length - 1 ; i >0 ; i--) { // so reversed the order of display so that new employees added will come to the top.
                 row+=` 
                     <tr class ="employee-details-row align-items-center" >
-                        <th scope="row">${i}</th>
+                        <th scope="row">${employees.length-i}</th>
                         <td>
                             <img class="emp-img-icon" src="http://localhost:3000/employees/${employees[i].id}/avatar" alt="employee icon">
                             ${employees[i].firstName} ${employees[i].lastName}
@@ -27,7 +27,7 @@ async function dataGeter() {
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">view</a></li>
                                     <li><a class="dropdown-item" href="#">Edit</a></li>
-                                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                                    <li><a class="dropdown-item" onclick="deleteEmployee('${employees[i].id}')" href="#">Delete</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -61,16 +61,57 @@ form.addEventListener('submit',(event)=>{
     event.preventDefault();
     event.stopPropagation();
     const fd = new FormData(form);
-    // console.log(fd);
-    // for (const item of fd) {
-    //     console.log(item);
-    // }
-    const fdobj= Object.fromEntries(fd);
-    fdobj.dob= fdobj.dob.split("-").reverse().join("-");
-    postEmployee(fdobj);
-    console.log(fdobj);
+    postEmployee(fd);
+
 })
 // --------------------------------------------------------------------------
+// -------------------user-related functions----------------
+async function postEmployee(fd){
+    const userobj= Object.fromEntries(fd);
+    userobj.dob= userobj.dob.split("-").reverse().join("-");
+    let response= await fetch("http://localhost:3000/employees",{
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userobj)
+    })
+    let result = await response.json();
+    if(result.message=='Employee created successfully'){
+        cancelForm();
+        await imageUpload(result.id, fd);
+        dataGeter();
+    }
+    
+}
+async function imageUpload(userId, formData) {
+    let imgResponse = await fetch(`http://localhost:3000/employees/${userId}/avatar`, {
+        method: 'POST',
+        body: formData
+    });
+    const imgResult = await imgResponse.json();
+    if (imgResult.success) {
+        console.log('Avatar uploaded successfully');
+    } else {
+        console.error('Error uploading avatar:', imgResult.error);
+    }
+}
+
+function deleteEmployee(empId) {
+    try {
+        fetch(`http://localhost:3000/employees/${empId}`,{
+            method:'DELETE'
+        }).then((response)=>{
+            alert(response);
+            dataGeter();
+        })
+    } catch (error) {
+        
+    }
+    
+}
+
+// ------------------------html-and front end related functions----------------
 function addEmployee() {
     const formDiv = document.getElementById("emp-form-container-div");
     const overlay = document.getElementById("overlay");
@@ -84,19 +125,4 @@ function cancelForm() {
     console.log(form);
     formDiv.style.display="none";
     overlay.style.display="none";
-}
-async function postEmployee(userobj){
-    let response= await fetch("http://localhost:3000/employees",{
-        method:'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userobj)
-    })
-    let result = await response.json();
-    if(result.message=='Employee created successfully'){
-        cancelForm();
-        dataGeter();
-    }
-    
 }

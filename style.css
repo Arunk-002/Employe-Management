@@ -181,7 +181,7 @@ input ::-webkit-input-placeholder{
 .emp-img-icon{
     /* display: inline-flex; */
     width: 40px;
-    height: auto;
+    height: 40px;
     border-radius: 50%;
 }
 /* --------------------------------------------------------------------- */
