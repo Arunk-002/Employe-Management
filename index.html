@@ -115,7 +115,7 @@
         </div>
         <div id="emp-form-container-div" class="emp-form-container parent-block container gap-3">
             <div class="c-block-1 container pt-3">
-                <form id="emp-form">
+                <!-- <form id="emp-form">
                     <div class="block-1 container d-flex flex-column row-gap-3 rounded-4 p-4">
                         <div class="row align-items-between">
                             <div class="col-11">
@@ -243,7 +243,138 @@
                             </div>
                         </div>
                     </div>
+                </form> -->
+                <form id="emp-form">
+                    <div class="block-1 container d-flex flex-column row-gap-3 rounded-4 p-4">
+                        <div class="row align-items-between">
+                            <div class="col-11">
+                                <h2 class="fs-4">Basic Details</h2>
+                            </div>
+                            <div class="col-1">
+                                <i id="x-cancel" class="fa-solid fa-xmark"></i>
+                            </div>
+                        </div>
+                        <div class="content container">
+                            <label class="upload d-flex flex-column align-items-center row-gap-1 rounded p-3 mb-3">
+                                <label for="upload">
+                                    <i class="fa-solid fa-upload"></i>
+                                    <input type="file" id="upload" name="avatar" style="display:none">
+                                </label>
+                                <p class="m-0 fs-6">Upload image</p>
+                                <p class="text-secondary m-0">PNG, JPG files are allowed</p>
+                            </label>
+                            <div class="row g-3 pt-3 pb-3">
+                                <div class="col-md-2">
+                                    <label for="salutationSelect" class="form-label fs-6">Salutation</label>
+                                    <select id="salutationSelect" name="salutation" class="form-select rounded-4">
+                                        <option>Mr</option>
+                                        <option>Ms</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="firstNameInput" class="form-label fs-6">First Name</label>
+                                    <input type="text" class="form-control rounded-4" id="firstNameInput" name="firstName" aria-label="First name">
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="lastNameInput" class="form-label fs-6">Last Name</label>
+                                    <input type="text" class="form-control rounded-4" id="lastNameInput" name="lastName" aria-label="Last name">
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3 pb-3">
+                                <div class="col-md-6">
+                                    <label for="usernameInput" class="form-label fs-6">Username</label>
+                                    <input type="text" class="form-control rounded-4" id="usernameInput" name="username">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="passwordInput" class="form-label fs-6">Password</label>
+                                    <input type="password" class="form-control rounded-4" id="passwordInput" name="password">
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3 pb-3">
+                                <div class="col-md-6">
+                                    <label for="emailInput" class="form-label fs-6">Email</label>
+                                    <input type="email" class="form-control rounded-4" id="emailInput" name="email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phoneInput" class="form-label fs-6">Number</label>
+                                    <input type="tel" aria-label="phone" class="form-control rounded-4" id="phoneInput" name="phone">
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3 pb-3">
+                                <div class="col-md-7">
+                                    <label for="dobInput" class="form-label fs-6">Date of Birth</label>
+                                    <input id="dobInput" class="form-control rounded-4" type="date" name="dob">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fs-6">Gender</label>
+                                    <div class="d-flex">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" checked>
+                                            <label class="form-check-label" for="genderMale">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female">
+                                            <label class="form-check-label" for="genderFemale">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3 pb-3">
+                                <div class="col-12">
+                                    <label for="qualificationInput" class="form-label fs-6">Qualification</label>
+                                    <input type="text" class="form-control rounded-4" id="qualificationInput" name="qualifications" placeholder="Enter your qualification">
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3 pb-3">
+                                <div class="col-12">
+                                    <label for="addressInput" class="form-label fs-6">Address</label>
+                                    <input type="text" class="form-control rounded-4" id="addressInput" name="address" placeholder="Enter your address">
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3 pb-3">
+                                <div class="col-md-6">
+                                    <label for="countrySelect" class="form-label fs-6">Country</label>
+                                    <select class="form-select form-select-l rounded-4" id="countrySelect" name="country" aria-label="Small select example">
+                                        <option selected>Select Country</option>
+                                        <option value="India">India</option>
+                                        <option value="Russia">Russia</option>
+                                        <option value="Armenia">Armenia</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="stateSelect" class="form-label fs-6">State</label>
+                                    <select class="form-select form-select-l rounded-4" id="stateSelect" name="state" aria-label="Small select example">
+                                        <option selected>Select State</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Amsterdam">Amsterdam</option>
+                                        <option value="Las-Vegas">Las-Vegas</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3 pb-3">
+                                <div class="col-md-6">
+                                    <label for="cityInput" class="form-label fs-6">City</label>
+                                    <input type="text" class="form-control rounded-4" id="cityInput" name="city" placeholder="Enter City">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="zipInput" class="form-label fs-6">Pin/Zip</label>
+                                    <input type="text" class="form-control rounded-4" id="zipInput" name="zip" placeholder="Enter pin/zip">
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3 pb-3 align-items-end">
+                                <div class="col-8"></div>
+                                <div class="col-2">
+                                    <button type="submit" id="save" class="btn btn-primary px-3 py-2">Save</button>
+                                    <!-- <button type="submit" id="change" class="btn change-btn btn-primary px-3 py-2">Save Changes</button> -->
+                                </div>
+                                <div class="col-2">
+                                    <button id="cancel" type="reset" class="btn btn-secondary px-3 py-2">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
+                
                 
             </div>
         </div>

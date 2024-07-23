@@ -26,7 +26,7 @@ async function dataGeter() {
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">view</a></li>
-                                    <li><a class="dropdown-item" href="#">Edit</a></li>
+                                    <li><a class="dropdown-item" onclick="editEmployee('${employees[i].id}')" href="#">Edit</a></li>
                                     <li><a class="dropdown-item" onclick="deleteEmployee('${employees[i].id}')" href="#">Delete</a></li>
                                 </ul>
                             </div>
@@ -35,6 +35,7 @@ async function dataGeter() {
                 `
                 tableBody.innerHTML=row;
             }
+            return employees 
         } else {
             alert("API malfunction");
         }
@@ -43,13 +44,13 @@ async function dataGeter() {
     }
 
 }
-dataGeter() // Data fetcher fucnction.
+dataGeter() // Data fetcher fucnction
 
 // --------------------------------addEventListener-----------------------
 const parentDiv = document.getElementById("main-parent");
 parentDiv.addEventListener("click",(event)=>{
     if (event.target.id==="add-employe-btn") {//adding employe code.
-        addEmployee();
+        popEmloyeeForm();
     }else if (event.target.id=== "cancel" || event.target.id==="overlay" || event.target.id=== "x-cancel") {
         cancelForm();
     }else{
@@ -64,6 +65,7 @@ form.addEventListener('submit',(event)=>{
     postEmployee(fd);
 
 })
+
 // --------------------------------------------------------------------------
 // -------------------user-related functions----------------
 async function postEmployee(fd){
@@ -110,12 +112,30 @@ function deleteEmployee(empId) {
     }
     
 }
+async function editEmployee(empId) {
+    let response = await fetch(`http://localhost:3000/employees/${empId}`);
+    let curData= await response.json()
+    popEmloyeeForm();
+    populateForm(curData);
+    const form = document.getElementById("emp-form");
+    form.addEventListener("change",(e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(e);
+        // console.log(e.isTrusted);
+        // const fd = new FormData(form);
+        // const userobj= Object.fromEntries(fd);
+        // userobj.dob= userobj.dob.split("-").reverse().join("-");
+    })
+
+    
+}
+
 
 // ------------------------html-and front end related functions----------------
-function addEmployee() {
+function popEmloyeeForm() {
     const formDiv = document.getElementById("emp-form-container-div");
     const overlay = document.getElementById("overlay");
-    console.log(form);
     formDiv.style.display="block";
     overlay.style.display="block";
 }
@@ -125,4 +145,27 @@ function cancelForm() {
     console.log(form);
     formDiv.style.display="none";
     overlay.style.display="none";
+}
+function populateForm(data) {
+    // const sBtn = document.getElementById("save");
+    // sBtn.style.display="none";
+    // const btn = document.getElementById("change");
+    // btn.style.setAttribute('display:"block" !important' );
+    console.log(data)
+    document.getElementById('salutationSelect').value = data.salutation;
+    document.getElementById('firstNameInput').value = data.firstName;
+    document.getElementById('lastNameInput').value = data.lastName;
+    document.getElementById('usernameInput').value = data.username;
+    document.getElementById('passwordInput').value = data.password;
+    document.getElementById('emailInput').value = data.email;
+    document.getElementById('phoneInput').value = data.phone;
+    document.getElementById('dobInput').value = data.dob.split("-").reverse().join("-");
+    document.querySelector(`input[name="gender"][value="${data.gender}"]`).checked = true;
+    document.getElementById('qualificationInput').value = data.qualifications;
+    document.getElementById('addressInput').value = data.address;
+    document.getElementById('countrySelect').value = data.country;
+    document.getElementById('stateSelect').value = data.state;
+    document.getElementById('cityInput').value = data.city;
+    document.getElementById('zipInput').value = data.zip;
+    
 }
