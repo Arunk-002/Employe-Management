@@ -57,15 +57,19 @@ parentDiv.addEventListener("click",(event)=>{
         // console.log('.')
     }
 })
-const form = document.getElementById("emp-form");
-form.addEventListener('submit',(event)=>{
+
+const empForm = document.getElementById("emp-form");
+empForm.addEventListener('submit',(event)=>{
     event.preventDefault();
-    event.stopPropagation();
-    const fd = new FormData(form);
-    postEmployee(fd);
+    const fd = new FormData(empForm);
+    const check=document.getElementById("emp-id-check").value;
+    if (check) {
+        console.log("edit form");
+    } else {
+        postEmployee(fd);
+    }
 
 })
-
 // --------------------------------------------------------------------------
 // -------------------user-related functions----------------
 async function postEmployee(fd){
@@ -112,24 +116,15 @@ function deleteEmployee(empId) {
     }
     
 }
+
 async function editEmployee(empId) {
     let response = await fetch(`http://localhost:3000/employees/${empId}`);
     let curData= await response.json()
+    document.getElementById("emp-id-check").value=empId;
     popEmloyeeForm();
     populateForm(curData);
-    const form = document.getElementById("emp-form");
-    form.addEventListener("change",(e)=>{
-        e.preventDefault();
-        e.stopPropagation();
-        console.log(e);
-        // console.log(e.isTrusted);
-        // const fd = new FormData(form);
-        // const userobj= Object.fromEntries(fd);
-        // userobj.dob= userobj.dob.split("-").reverse().join("-");
-    })
-
-    
 }
+
 
 
 // ------------------------html-and front end related functions----------------
@@ -142,16 +137,11 @@ function popEmloyeeForm() {
 function cancelForm() {
     const formDiv = document.getElementById("emp-form-container-div");
     const overlay = document.getElementById("overlay");
-    console.log(form);
+    document.getElementById('emp-form').reset();
     formDiv.style.display="none";
     overlay.style.display="none";
 }
 function populateForm(data) {
-    // const sBtn = document.getElementById("save");
-    // sBtn.style.display="none";
-    // const btn = document.getElementById("change");
-    // btn.style.setAttribute('display:"block" !important' );
-    console.log(data)
     document.getElementById('salutationSelect').value = data.salutation;
     document.getElementById('firstNameInput').value = data.firstName;
     document.getElementById('lastNameInput').value = data.lastName;

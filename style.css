@@ -161,8 +161,10 @@ input ::-webkit-input-placeholder{
 }
 .change-btn{
     color: white !important;
-    background-color: var(--on-clr) !important;
-    display: none !important;
+    background-color: #0d6efd !important;
+    border-radius: 10px;
+    border: none;
+    display: none;
 }
 .button-block .btn{
     font-size: 16px !important;
