@@ -64,8 +64,14 @@ empForm.addEventListener('submit',(event)=>{
     const fd = new FormData(empForm);
     const check=document.getElementById("emp-id-check").value;
     if (check) {
-        console.log("edit form");
+        if (isFormDataEqual(fd,empData)) {
+            cancelForm();
+            console.log("Nothing changed")
+        } else {
+            PutEmployee(fd,document.getElementById("emp-id-check").value);
+        }
     } else {
+        console.log("save form")
         postEmployee(fd);
     }
 
@@ -116,16 +122,62 @@ function deleteEmployee(empId) {
     }
     
 }
-
+let empData;
 async function editEmployee(empId) {
     let response = await fetch(`http://localhost:3000/employees/${empId}`);
-    let curData= await response.json()
+    empData= await response.json()
     document.getElementById("emp-id-check").value=empId;
     popEmloyeeForm();
-    populateForm(curData);
+    populateForm(empData);
+}
+async function PutEmployee(fd,id) {
+    const user= Object.fromEntries(fd);
+    user.dob= user.dob.split("-").reverse().join("-");
+    let response = await fetch(`http://localhost:3000/employees/${id}`,{
+        method:"PUT",
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    });
+    let message = await response.json();
+    console.log(message);
+    if (user.avatar.size!=0) {
+        await imageUpload(id,fd);
+    }
+    dataGeter();
+    cancelForm();
 }
 
+function isFormDataEqual(formData, curData) {
+    // Convert FormData to a plain object
+    const formObject = Object.fromEntries(formData);
 
+    // Adjust the dob format in curData to match the form data format
+    const adjustedCurData = { ...curData };
+    if (adjustedCurData.dob) {
+        const [year, month, day] = adjustedCurData.dob.split('-');
+        adjustedCurData.dob = `${day}-${month}-${year}`;
+    }
+
+    // Compare formObject and adjustedCurData (excluding avatar and id)
+    for (const key in formObject) {
+        if (key !== "avatar" && formObject[key] !== adjustedCurData[key]) {
+            return false;
+        }
+    }
+
+    // Ensure the keys in adjustedCurData also match (excluding avatar and id)
+    for (const key in adjustedCurData) {
+        if (key !== "avatar" && key !== "id" && formObject[key] !== adjustedCurData[key]) {
+            return false;
+        }
+    }
+    if (formObject.avatar.size!=0) {
+        return false
+    }
+    return true;
+}
 
 // ------------------------html-and front end related functions----------------
 function popEmloyeeForm() {

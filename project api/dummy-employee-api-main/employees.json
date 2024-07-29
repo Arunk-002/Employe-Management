@@ -95,11 +95,11 @@
   {
     "avatar": "285f4576-2f1f-4062-bf9f-1276ccdb4ba1.jpg",
     "salutation": "Mr",
-    "firstName": "add",
-    "lastName": "adasd",
-    "username": "adfzsd",
+    "firstName": "Makan",
+    "lastName": "jack",
+    "username": "Makkan123",
     "password": "adsf@2141",
-    "email": "adsf@gds.com",
+    "email": "makkan@gds.com",
     "phone": "2314586790",
     "dob": "17-10-2024",
     "gender": "Male",
@@ -110,5 +110,24 @@
     "city": "saadf",
     "zip": "327845",
     "id": "285f4576-2f1f-4062-bf9f-1276ccdb4ba1"
+  },
+  {
+    "avatar": "865908d0-d549-4de8-8d42-61976925b3bd.jpg",
+    "salutation": "Mr",
+    "firstName": "Gojo",
+    "lastName": "saturo",
+    "username": "Gj",
+    "password": "Gj@12",
+    "email": "gj@tokyo.com",
+    "phone": "8907645321",
+    "dob": "03-07-2024",
+    "gender": "Male",
+    "qualifications": "GRade 1 sorceror",
+    "address": "Tokyo japan",
+    "country": "India",
+    "state": "Kerala",
+    "city": "shiganshina",
+    "zip": "458763",
+    "id": "865908d0-d549-4de8-8d42-61976925b3bd"
   }
 ]
