@@ -25,7 +25,7 @@ async function dataGeter() {
                                 <i class="fa-solid fa-ellipsis"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">view</a></li>
+                                    <li><a class="dropdown-item" href="./employee.html?id=${employees[i].id}">view</a></li>
                                     <li><a class="dropdown-item" onclick="editEmployee('${employees[i].id}')" href="#">Edit</a></li>
                                     <li><a class="dropdown-item" onclick="deleteEmployee('${employees[i].id}')" href="#">Delete</a></li>
                                 </ul>

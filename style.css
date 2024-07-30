@@ -205,9 +205,10 @@ input ::-webkit-input-placeholder{
 }
 .emp-img{
     border: 8px solid white;
-    max-width: 25% !important;
+    max-width: 23% !important;
     border-radius: 50% !important;
     padding: 0 !important;
+    height: 145px;
 }
 .emp-img-row{
     margin-top:-90px !important;

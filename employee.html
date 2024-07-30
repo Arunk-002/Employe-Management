@@ -10,7 +10,7 @@
 </head>
 <body>
     <section class="main-body">
-        <div class="child-body row">
+        <div id="main" class="child-body row">
             <div class="dashbord-sec col-2 d-flex flex-column">
                 <div class="nav-head container p-3">
                     <h3 class="h3">Employee Management</h3> 
@@ -52,73 +52,74 @@
                 <div class="emp-sec justify-content-center row">
                     <div class="employe-detail container p-4 rounded-4 mb-4">
                         <div class="banner-row row">
-                            <img src="./images/banner.jpeg" alt="">
+                            <img id="banner-image" src="./images/banner.jpeg" alt="">
                         </div>
-                        <div class="row justify-content-center" >
+                        <div class="row justify-content-center">
                             <div class="row emp-img-row justify-content-center">
-                                <img class="emp-img" src="./images/employee.png" alt="">
+                                <img id="employee-image" class="emp-img" src="./images/employee.png" alt="">
                             </div>
                         </div>
-                        <div class=" row justify-content-center pt-2">
-                            <h3 class="fs-3 text-center fw-medium">Mr. Michal Jackson</h3>
-                            <h4 class="fs-5 text-center fw-medium s-text">michaljackson@gmail.com</h4>
+                        <div class="row justify-content-center pt-2">
+                            <h3 id="employee-name" class="fs-3 text-center fw-medium">Mr. Michal Jackson</h3>
+                            <h4 id="employee-email" class="fs-5 text-center fw-medium s-text">michaljackson@gmail.com</h4>
                         </div>
                         <div class="row employe-content pt-4">
                             <div class="row">
                                 <div class="col-4">
                                     <div class="detail-card rounded-4 p-3">
-                                        <h6 class=".fs-6 s-text">Gender</h6>
-                                        <p>Male</p>
+                                        <h6 class="fs-6 s-text">Gender</h6>
+                                        <p id="employee-gender">Male</p>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="detail-card rounded-4 p-3">
-                                        <h6 class=".fs-6 s-text">Age</h6>
-                                        <p>35</p>
+                                        <h6 class="fs-6 s-text">Age</h6>
+                                        <p id="employee-age">35</p>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="detail-card rounded-4 p-3">
-                                        <h6 class=".fs-6 s-text">Date Of Birth</h6>
-                                        <p>30 Jun 1999</p>
+                                        <h6 class="fs-6 s-text">Date Of Birth</h6>
+                                        <p id="employee-dob">30 Jun 1999</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row pt-4">
                                 <div class="col-6">
                                     <div class="detail-card rounded-4 p-3">
-                                        <h6 class=".fs-6 s-text">Mobile Number</h6>
-                                        <p>9988776789</p>
+                                        <h6 class="fs-6 s-text">Mobile Number</h6>
+                                        <p id="employee-mobile">9988776789</p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="detail-card rounded-4 p-3">
-                                        <h6 class=".fs-6 s-text">Qualification</h6>
-                                        <p>BSC Computer Science</p>
+                                        <h6 class="fs-6 s-text">Qualification</h6>
+                                        <p id="employee-qualification">BSC Computer Science</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row h-100 pt-4" >
+                            <div class="row h-100 pt-4">
                                 <div class="col-6">
                                     <div class="detail-card rounded-4 p-4">
-                                        <h6 class=".fs-6 s-text">Address</h6>
-                                        <p>789 Pine St Dummy Address,
-                                            Chicago, Texas, USA 123456</p>
+                                        <h6 class="fs-6 s-text">Address</h6>
+                                        <p id="employee-address">
+                                            789 Pine St Dummy Address, Chicago, Texas, USA 123456
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="detail-card rounded-4 pt-3 px-3 pb-5">
-                                        <h6 class=".fs-6 s-text">Username</h6>
-                                        <p>Michaljackson0</p>
+                                        <h6 class="fs-6 s-text">Username</h6>
+                                        <p id="employee-username">Michaljackson0</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="row pt-3 d-flex justify-content-end">
                                 <div class="col-2">
-                                    <button class="btn btn-danger py-3 px-4 rounded-4">Delete</button>
+                                    <button id="del-btn" class="btn btn-danger py-3 px-4 rounded-4">Delete</button>
                                 </div>
                                 <div class="col-3">
-                                    <button class="btn btn-primary p-3 rounded-4">Edit Details</button>
+                                    <button id="edit-btn" class="btn btn-primary p-3 rounded-4">Edit Details</button>
                                 </div>
                                
                             </div>
@@ -144,6 +145,6 @@
             
         </div>
     </section>
-    
+    <script src="./view.js"></script>    
 </body>
 </html>

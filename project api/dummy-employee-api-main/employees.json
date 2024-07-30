@@ -36,25 +36,6 @@
     "id": "33676acd-bdd4-4986-9c39-0a850bba290f"
   },
   {
-    "avatar": "c627e9e8-03d2-485c-8df4-ab65849a5d08.jpg",
-    "salutation": "Mr",
-    "firstName": "Jhon",
-    "lastName": "Doe",
-    "username": "ads",
-    "password": "adsf!322",
-    "email": "asdf@gm.com",
-    "phone": "2345679823",
-    "dob": "02-07-2024",
-    "gender": "Male",
-    "qualifications": "asdf",
-    "address": "adsf",
-    "country": "India",
-    "state": "Kerala",
-    "city": "sdaf",
-    "zip": "234567",
-    "id": "c627e9e8-03d2-485c-8df4-ab65849a5d08"
-  },
-  {
     "avatar": "dfa99c4a-9039-4d10-a4fa-ca8d6a89ea01.jpg",
     "salutation": "Ms",
     "firstName": "serena",
@@ -112,7 +93,7 @@
     "id": "285f4576-2f1f-4062-bf9f-1276ccdb4ba1"
   },
   {
-    "avatar": "865908d0-d549-4de8-8d42-61976925b3bd.jpg",
+    "avatar": {},
     "salutation": "Mr",
     "firstName": "Gojo",
     "lastName": "saturo",
@@ -120,7 +101,7 @@
     "password": "Gj@12",
     "email": "gj@tokyo.com",
     "phone": "8907645321",
-    "dob": "03-07-2024",
+    "dob": "03-07-1999",
     "gender": "Male",
     "qualifications": "GRade 1 sorceror",
     "address": "Tokyo japan",
