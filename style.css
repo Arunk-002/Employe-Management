@@ -14,6 +14,7 @@ a{
     position:relative;
 }
 .child-body{
+    z-index: -1;
     height: 98vh !important;
 }
 .container{
@@ -105,7 +106,10 @@ hr{
     z-index: 1;
 
 }
-.block-1{
+.overlay-emp{
+    height:71pc !important;
+}
+.block-1-scroll{
     height: 95vh;
     overflow: scroll;
     scrollbar-width: none;

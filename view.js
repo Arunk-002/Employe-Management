@@ -33,11 +33,116 @@ function deleteEmployee(empId) {
     }
     
 }
+
+async function PutEmployee(fd,id) {
+    const user= Object.fromEntries(fd);
+    user.dob= user.dob.split("-").reverse().join("-");
+    let response = await fetch(`http://localhost:3000/employees/${id}`,{
+        method:"PUT",
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    });
+    let message = await response.json();
+    console.log(message);
+    if (user.avatar.size!=0) {
+        await imageUpload(id,fd);
+    }
+    cancelForm();
+}
+async function imageUpload(userId, formData) {
+    let imgResponse = await fetch(`http://localhost:3000/employees/${userId}/avatar`, {
+        method: 'POST',
+        body: formData
+    });
+    const imgResult = await imgResponse.json();
+    if (imgResult.success) {
+        console.log('Avatar uploaded successfully');
+    } else {
+        console.error('Error uploading avatar:', imgResult.error);
+    }
+}
+
 let main = document.getElementById("main");
 main.addEventListener('click',(e)=>{
     if (e.target.id==="del-btn") {
         deleteEmployee(empData.id)
-    } if (e.target.id==="edit-btn") {
-        console.log("edit")
+    }else if (e.target.id==="edit-btn") {
+        populateForm(empData);
+    }else if(e.target.id=== "cancel" || e.target.id==="overlay" || e.target.id=== "x-cancel"){
+        cancelForm()
     }
 })
+const empForm = document.getElementById("emp-form");
+empForm.addEventListener('submit',(event)=>{
+    console.log(event)
+    event.preventDefault();
+    const fd = new FormData(empForm);
+    if (isFormDataEqual(fd,empData)) {
+        cancelForm();
+    } else {
+        PutEmployee(fd,empData.id);
+    }
+    
+})
+function isFormDataEqual(formData, curData) {
+    // Convert FormData to a plain object
+    const formObject = Object.fromEntries(formData);
+
+    // Adjust the dob format in curData to match the form data format
+    const adjustedCurData = { ...curData };
+    if (adjustedCurData.dob) {
+        const [year, month, day] = adjustedCurData.dob.split('-');
+        adjustedCurData.dob = `${day}-${month}-${year}`;
+    }
+
+    // Compare formObject and adjustedCurData (excluding avatar and id)
+    for (const key in formObject) {
+        if (key !== "avatar" && formObject[key] !== adjustedCurData[key]) {
+            return false;
+        }
+    }
+
+    // Ensure the keys in adjustedCurData also match (excluding avatar and id)
+    for (const key in adjustedCurData) {
+        if (key !== "avatar" && key !== "id" && formObject[key] !== adjustedCurData[key]) {
+            return false;
+        }
+    }
+    if (formObject.avatar.size!=0) {
+        return false
+    }
+    return true;
+}
+
+// ----------------form functions-----------------
+function cancelForm() {
+    const formDiv = document.getElementById("emp-form-container-div");
+    const overlay = document.getElementById("overlay");
+    document.getElementById('emp-form').reset();
+    formDiv.style.display="none";
+    overlay.style.display="none";
+}
+function populateForm(data) {
+    const formDiv = document.getElementById("emp-form-container-div");
+    const overlay = document.getElementById("overlay");
+    formDiv.style.display="block";
+    overlay.style.display="block";
+    document.getElementById('salutationSelect').value = data.salutation;
+    document.getElementById('firstNameInput').value = data.firstName;
+    document.getElementById('lastNameInput').value = data.lastName;
+    document.getElementById('usernameInput').value = data.username;
+    document.getElementById('passwordInput').value = data.password;
+    document.getElementById('emailInput').value = data.email;
+    document.getElementById('phoneInput').value = data.phone;
+    document.getElementById('dobInput').value = data.dob.split("-").reverse().join("-");
+    document.querySelector(`input[name="gender"][value="${data.gender}"]`).checked = true;
+    document.getElementById('qualificationInput').value = data.qualifications;
+    document.getElementById('addressInput').value = data.address;
+    document.getElementById('countrySelect').value = data.country;
+    document.getElementById('stateSelect').value = data.state;
+    document.getElementById('cityInput').value = data.city;
+    document.getElementById('zipInput').value = data.zip;
+    
+}
