@@ -17,26 +17,6 @@
     "password": "abcxyz"
   },
   {
-    "upload": {},
-    "salutation": "Mr",
-    "firstName": "Jhon",
-    "lastName": "Vaasu",
-    "username": "Babyaga",
-    "password": "Babayaga@1999",
-    "email": "boogeyman@continental.com",
-    "phone": "6666666666",
-    "dob": "06-03-1990",
-    "gender": "Male",
-    "qualifications": "Assasin",
-    "address": "las Vegas",
-    "country": "Russia",
-    "state": "Amsterdam",
-    "city": "Las Vegas",
-    "zip": "777777",
-    "id": "33676acd-bdd4-4986-9c39-0a850bba290f",
-    "avatar": {}
-  },
-  {
     "avatar": "285f4576-2f1f-4062-bf9f-1276ccdb4ba1.jpg",
     "salutation": "Mr",
     "firstName": "Makan",
@@ -68,10 +48,29 @@
     "gender": "Male",
     "qualifications": "GRade 1 sorceror",
     "address": "Tokyo japan",
-    "country": "India",
+    "country": "Russia",
     "state": "Kerala",
     "city": "shiganshina",
     "zip": "458763",
     "id": "865908d0-d549-4de8-8d42-61976925b3bd"
+  },
+  {
+    "avatar": {},
+    "salutation": "Mr",
+    "firstName": "sudheesh",
+    "lastName": "kumar",
+    "username": "sudh",
+    "password": "1234sudheesh@",
+    "email": "sudheesh@gmail.com",
+    "phone": "1234567890",
+    "dob": "05-05-2001",
+    "gender": "Male",
+    "qualifications": "graduate",
+    "address": "gokulam near block office ",
+    "country": "India",
+    "state": "Kerala",
+    "city": "tvm",
+    "zip": "697155",
+    "id": "6f5e5137-67ed-469a-899e-c7e351829c5c"
   }
 ]

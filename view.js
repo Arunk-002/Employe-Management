@@ -25,7 +25,12 @@ function deleteEmployee(empId) {
         fetch(`http://localhost:3000/employees/${empId}`,{
             method:'DELETE'
         }).then((response)=>{
-            alert(response);
+            message={
+                title:"Deleted",
+                text:"Employee Deleted Succesfully",
+                icon:"success"
+            }
+            popMessage(message);
             window.location.href="./index.html"
         })
     } catch (error) {
@@ -44,12 +49,18 @@ async function PutEmployee(fd,id) {
         },
         body: JSON.stringify(user)
     });
-    let message = await response.json();
-    console.log(message);
+    let Responsemessage = await response.json();
+    console.log(Responsemessage);
     if (user.avatar.size!=0) {
         await imageUpload(id,fd);
     }
     cancelForm();
+    message={
+        title:"updated",
+        text:"Employee Updated Succesfully",
+        icon:"success"
+    }
+    popMessage(message);
 }
 async function imageUpload(userId, formData) {
     let imgResponse = await fetch(`http://localhost:3000/employees/${userId}/avatar`, {
@@ -145,4 +156,11 @@ function populateForm(data) {
     document.getElementById('cityInput').value = data.city;
     document.getElementById('zipInput').value = data.zip;
     
+}
+function popMessage(message){
+    Swal.fire({
+        title: message.title,
+        text: message.text,
+        icon: message.icon
+      });
 }

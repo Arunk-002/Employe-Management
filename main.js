@@ -91,8 +91,23 @@ async function postEmployee(fd){
     let result = await response.json();
     if(result.message=='Employee created successfully'){
         cancelForm();
-        await imageUpload(result.id, fd);
+        if (userobj.avatar.size!=0) {
+            await imageUpload(id,fd);
+        }
+        message={
+            title:"New Employee",
+            text:"Employee Created Succesfully",
+            icon:"success"
+        }
+        popMessage(message);
         dataGeter();
+    }else{
+        message={
+            title:"Oop's",
+            text:"Employee not Created",
+            icon:"error"
+        }
+        popMessage(message);
     }
     
 }
@@ -114,7 +129,12 @@ function deleteEmployee(empId) {
         fetch(`http://localhost:3000/employees/${empId}`,{
             method:'DELETE'
         }).then((response)=>{
-            alert(response);
+            message={
+                title:"Deleted",
+                text:"Employee Deleted Succesfully",
+                icon:"success"
+            }
+            popMessage(message);
             dataGeter();
         })
     } catch (error) {
@@ -141,12 +161,17 @@ async function PutEmployee(fd,id) {
         body: JSON.stringify(user)
     });
     let message = await response.json();
-    console.log(message);
     if (user.avatar.size!=0) {
         await imageUpload(id,fd);
     }
     dataGeter();
     cancelForm();
+    message={
+        title:"Updated",
+        text:"Employee Updated Succesfully",
+        icon:"success"
+    }
+    popMessage(message);
 }
 
 function isFormDataEqual(formData, curData) {
@@ -210,4 +235,11 @@ function populateForm(data) {
     document.getElementById('cityInput').value = data.city;
     document.getElementById('zipInput').value = data.zip;
     
+}
+function popMessage(message){
+    Swal.fire({
+        title: message.title,
+        text: message.text,
+        icon: message.icon
+      });
 }
