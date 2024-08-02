@@ -72,5 +72,24 @@
     "city": "tvm",
     "zip": "697155",
     "id": "6f5e5137-67ed-469a-899e-c7e351829c5c"
+  },
+  {
+    "avatar": {},
+    "salutation": "Mr",
+    "firstName": "adfsdsaf",
+    "lastName": "dasfdfsa",
+    "username": "adfadf",
+    "password": "adf@123",
+    "email": "adfads@gaj.com",
+    "phone": "1234567890",
+    "dob": "01-08-2024",
+    "gender": "Male",
+    "qualifications": "ads",
+    "address": "asdf",
+    "country": "India",
+    "state": "Amsterdam",
+    "city": "dfsafds",
+    "zip": "769012",
+    "id": "34330d7b-0a3f-492b-9ef5-a970812d25d4"
   }
 ]

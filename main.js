@@ -1,51 +1,45 @@
 // Fetching data and displaying it on table.
+let employeeArraay=[];
+let limit=2;
 async function dataGeter() {
     try {
         let response =await fetch("http://localhost:3000/employees");
         if (response.ok) {
-            let employees = await response.json();
-            let tableBody = document.getElementById("employee-table");
-            let row = '';
-            for (let i = employees.length - 1 ; i >0 ; i--) { // so reversed the order of display so that new employees added will come to the top.
-                row+=` 
-                    <tr class ="employee-details-row align-items-center" >
-                        <th scope="row">${employees.length-i}</th>
-                        <td>
-                            <img class="emp-img-icon" src="http://localhost:3000/employees/${employees[i].id}/avatar" alt="employee icon">
-                            ${employees[i].firstName} ${employees[i].lastName}
-                        </td>
-                        <td>${employees[i].email}</td>
-                        <td>${employees[i].phone}</td>
-                        <td>${employees[i].gender}</td>
-                        <td>${employees[i].dob}</td>
-                        <td>${employees[i].country}</td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="./employee.html?id=${employees[i].id}">view</a></li>
-                                    <li><a class="dropdown-item" onclick="editEmployee('${employees[i].id}')" href="#">Edit</a></li>
-                                    <li><a class="dropdown-item" onclick="deleteEmployee('${employees[i].id}')" href="#">Delete</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                `
-                tableBody.innerHTML=row;
-            }
-            return employees 
+            employeeArraay = await response.json();
+            renderButtonPagination(employeeArraay.length);          
+            renderData(0,limit);
+            return employeeArraay 
         } else {
             alert("API malfunction");
         }
     } catch (error) {
         alert("server down");
     }
-
 }
 dataGeter() // Data fetcher fucnction
 
+function renderButtonPagination(empLenght) {
+    let btnNo=Math.ceil(empLenght/limit);   
+    console.log(btnNo);
+    let pgBtns=document.getElementById('pg-btns');
+    pgBtns.innerHTML='';
+    for (let index = 0; index < btnNo; index++) {
+        pgBtns.innerHTML+=`<li onclick="pagination(${index})" class="page-item"><a class="page-link" href="#">${index+1}</a></li>`;
+    }
+}
+function pagination(btNo){
+    let strtIndex= btNo*limit;
+    let endIndex=strtIndex+limit;
+    console.log(strtIndex,endIndex);
+    
+    if (endIndex>employeeArraay.length-1) {
+        renderData(strtIndex,employeeArraay.length);
+    } else {
+        renderData(strtIndex,endIndex);
+    }
+    
+    
+}
 // --------------------------------addEventListener-----------------------
 const parentDiv = document.getElementById("main-parent");
 parentDiv.addEventListener("click",(event)=>{
@@ -242,4 +236,43 @@ function popMessage(message){
         text: message.text,
         icon: message.icon
       });
+}
+function renderData(start,end) {    
+    let tableBody = document.getElementById("employee-table");
+            let row = '';
+            for (let i = start; i< end; i++) { // so reversed the order of display so that new employees added will come to the top.
+                row+=` 
+                    <tr class ="employee-details-row align-items-center" >
+                        <th scope="row">${i+1}</th>
+                        <td>
+                            <img class="emp-img-icon" src="http://localhost:3000/employees/${employeeArraay[i].id}/avatar" alt="employee icon">
+                            ${employeeArraay[i].firstName} ${employeeArraay[i].lastName}
+                        </td>
+                        <td>${employeeArraay[i].email}</td>
+                        <td>${employeeArraay[i].phone}</td>
+                        <td>${employeeArraay[i].gender}</td>
+                        <td>${employeeArraay[i].dob}</td>
+                        <td>${employeeArraay[i].country}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="./employee.html?id=${employeeArraay[i].id}">view</a></li>
+                                    <li><a class="dropdown-item" onclick="editEmployee('${employeeArraay[i].id}')" href="#">Edit</a></li>
+                                    <li><a class="dropdown-item" onclick="deleteEmployee('${employeeArraay[i].id}')" href="#">Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                `
+                tableBody.innerHTML=row;
+            }
+}
+function pgLimitFinder(){
+    limit=parseInt(document.getElementById('pg-limit').value);
+    renderButtonPagination(employeeArraay.length);
+    renderData(0,limit);
+    
 }

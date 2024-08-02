@@ -109,6 +109,9 @@ hr{
 .overlay-emp{
     height:71pc !important;
 }
+#pg-limit{
+    width: 5% !important;
+}
 .block-1-scroll{
     height: 95vh;
     overflow: scroll;
