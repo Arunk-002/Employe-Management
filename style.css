@@ -151,6 +151,9 @@ input ::-webkit-input-placeholder{
     content: "*";
     color: red;
 }
+.is-invalid {
+    border: 1px solid red !important;
+}
 .form-control:focus,.form-select:focus,.form-check-input:focus{
     box-shadow: none !important;
     border-color: var(--on-clr) !important;

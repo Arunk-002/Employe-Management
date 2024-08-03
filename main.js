@@ -6,21 +6,31 @@ async function dataGeter() {
         let response =await fetch("http://localhost:3000/employees");
         if (response.ok) {
             employeeArraay = await response.json();
+            employeeArraay=employeeArraay.reverse();// so reversed the order of display so that new employees added will come to the top.
             renderButtonPagination(employeeArraay.length);          
             renderData(0,limit);
             return employeeArraay 
         } else {
-            alert("API malfunction");
+            let message={
+                title:"Oop's",
+                text:"Server Down",
+                icon:"error"
+            }
+            popMessage(message)
         }
     } catch (error) {
-        alert("server down");
+        let message={
+            title:"Oop's",
+            text:"Server Down",
+            icon:"error"
+        }
+        popMessage(message)
     }
 }
 dataGeter() // Data fetcher fucnction
 
 function renderButtonPagination(empLenght) {
     let btnNo=Math.ceil(empLenght/limit);   
-    console.log(btnNo);
     let pgBtns=document.getElementById('pg-btns');
     pgBtns.innerHTML='';
     for (let index = 0; index < btnNo; index++) {
@@ -30,15 +40,11 @@ function renderButtonPagination(empLenght) {
 function pagination(btNo){
     let strtIndex= btNo*limit;
     let endIndex=strtIndex+limit;
-    console.log(strtIndex,endIndex);
-    
     if (endIndex>employeeArraay.length-1) {
         renderData(strtIndex,employeeArraay.length);
     } else {
         renderData(strtIndex,endIndex);
     }
-    
-    
 }
 // --------------------------------addEventListener-----------------------
 const parentDiv = document.getElementById("main-parent");
@@ -47,8 +53,6 @@ parentDiv.addEventListener("click",(event)=>{
         popEmloyeeForm();
     }else if (event.target.id=== "cancel" || event.target.id==="overlay" || event.target.id=== "x-cancel") {
         cancelForm();
-    }else{
-        // console.log('.')
     }
 })
 
@@ -57,18 +61,28 @@ empForm.addEventListener('submit',(event)=>{
     event.preventDefault();
     const fd = new FormData(empForm);
     const check=document.getElementById("emp-id-check").value;
-    if (check) {
-        if (isFormDataEqual(fd,empData)) {
-            cancelForm();
-            console.log("Nothing changed")
+    let valid = validateForm();
+    if (valid) {
+        if (check) {
+            if (isFormDataEqual(fd,empData)) {
+                cancelForm();
+            } else {
+                PutEmployee(fd,document.getElementById("emp-id-check").value);
+            }
         } else {
-            PutEmployee(fd,document.getElementById("emp-id-check").value);
+            postEmployee(fd);
         }
-    } else {
-        console.log("save form")
-        postEmployee(fd);
     }
-
+})
+const searchBar=document.getElementById("user-search");
+searchBar.addEventListener("input",(event)=>{
+    event.stopPropagation();
+    let value=event.target.value.toLowerCase();
+    employeeArraay.forEach((user)=>{
+        if(user.firstName.toLowerCase().includes(value)||user.lastName.toLowerCase().includes(value)){
+            console.log(user.firstName,user.lastName);
+        }
+    })
 })
 // --------------------------------------------------------------------------
 // -------------------user-related functions----------------
@@ -169,24 +183,17 @@ async function PutEmployee(fd,id) {
 }
 
 function isFormDataEqual(formData, curData) {
-    // Convert FormData to a plain object
     const formObject = Object.fromEntries(formData);
-
-    // Adjust the dob format in curData to match the form data format
     const adjustedCurData = { ...curData };
     if (adjustedCurData.dob) {
         const [year, month, day] = adjustedCurData.dob.split('-');
         adjustedCurData.dob = `${day}-${month}-${year}`;
     }
-
-    // Compare formObject and adjustedCurData (excluding avatar and id)
     for (const key in formObject) {
         if (key !== "avatar" && formObject[key] !== adjustedCurData[key]) {
             return false;
         }
     }
-
-    // Ensure the keys in adjustedCurData also match (excluding avatar and id)
     for (const key in adjustedCurData) {
         if (key !== "avatar" && key !== "id" && formObject[key] !== adjustedCurData[key]) {
             return false;
@@ -240,7 +247,7 @@ function popMessage(message){
 function renderData(start,end) {    
     let tableBody = document.getElementById("employee-table");
             let row = '';
-            for (let i = start; i< end; i++) { // so reversed the order of display so that new employees added will come to the top.
+            for (let i = start; i< end; i++) { 
                 row+=` 
                     <tr class ="employee-details-row align-items-center" >
                         <th scope="row">${i+1}</th>
@@ -275,4 +282,43 @@ function pgLimitFinder(){
     renderButtonPagination(employeeArraay.length);
     renderData(0,limit);
     
+}
+
+// form validation--------------------------------
+
+function validateForm() {
+    let isValid = true;
+    const formElements = document.getElementById('emp-form').elements;
+    const requiredFields = ['salutationSelect', 'firstNameInput', 'lastNameInput', 'usernameInput', 'passwordInput', 'emailInput', 'phoneInput', 'dobInput', 'qualificationInput', 'addressInput', 'countrySelect', 'stateSelect', 'cityInput', 'zipInput'];
+    
+    requiredFields.forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (!element.value) {
+            isValid = false;
+            element.classList.add('is-invalid');
+        } else {
+            element.classList.remove('is-invalid');
+        }
+    });
+
+    //  email
+    const emailInput = document.getElementById('emailInput');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value)) {
+        isValid = false;
+        emailInput.classList.add('is-invalid');
+    } else {
+        emailInput.classList.remove('is-invalid');
+    }
+
+    // Validate phone number
+    const phoneInput = document.getElementById('phoneInput');
+    const phonePattern = /^\d{10}$/;
+    if (!phonePattern.test(phoneInput.value)) {
+        isValid = false;
+        phoneInput.classList.add('is-invalid');
+    } else {
+        phoneInput.classList.remove('is-invalid');
+    }
+    return isValid;
 }

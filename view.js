@@ -24,7 +24,7 @@ function deleteEmployee(empId) {
     try {
         fetch(`http://localhost:3000/employees/${empId}`,{
             method:'DELETE'
-        }).then((response)=>{
+        }).then(()=>{
             message={
                 title:"Deleted",
                 text:"Employee Deleted Succesfully",
@@ -34,6 +34,7 @@ function deleteEmployee(empId) {
             window.location.href="./index.html"
         })
     } catch (error) {
+        console.log(error);
         
     }
     
@@ -90,32 +91,29 @@ empForm.addEventListener('submit',(event)=>{
     console.log(event)
     event.preventDefault();
     const fd = new FormData(empForm);
-    if (isFormDataEqual(fd,empData)) {
-        cancelForm();
-    } else {
-        PutEmployee(fd,empData.id);
+    let valid=validateForm()
+    if (valid) {
+        if (isFormDataEqual(fd,empData)) {
+            cancelForm();
+        } else {
+            PutEmployee(fd,empData.id);
+        }
     }
+    
     
 })
 function isFormDataEqual(formData, curData) {
-    // Convert FormData to a plain object
     const formObject = Object.fromEntries(formData);
-
-    // Adjust the dob format in curData to match the form data format
     const adjustedCurData = { ...curData };
     if (adjustedCurData.dob) {
         const [year, month, day] = adjustedCurData.dob.split('-');
         adjustedCurData.dob = `${day}-${month}-${year}`;
     }
-
-    // Compare formObject and adjustedCurData (excluding avatar and id)
     for (const key in formObject) {
         if (key !== "avatar" && formObject[key] !== adjustedCurData[key]) {
             return false;
         }
     }
-
-    // Ensure the keys in adjustedCurData also match (excluding avatar and id)
     for (const key in adjustedCurData) {
         if (key !== "avatar" && key !== "id" && formObject[key] !== adjustedCurData[key]) {
             return false;
@@ -163,4 +161,40 @@ function popMessage(message){
         text: message.text,
         icon: message.icon
       });
+}
+function validateForm() {
+    let isValid = true;
+    const formElements = document.getElementById('emp-form').elements;
+    const requiredFields = ['salutationSelect', 'firstNameInput', 'lastNameInput', 'usernameInput', 'passwordInput', 'emailInput', 'phoneInput', 'dobInput', 'qualificationInput', 'addressInput', 'countrySelect', 'stateSelect', 'cityInput', 'zipInput'];
+    
+    requiredFields.forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (!element.value) {
+            isValid = false;
+            element.classList.add('is-invalid');
+        } else {
+            element.classList.remove('is-invalid');
+        }
+    });
+
+    //  email
+    const emailInput = document.getElementById('emailInput');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value)) {
+        isValid = false;
+        emailInput.classList.add('is-invalid');
+    } else {
+        emailInput.classList.remove('is-invalid');
+    }
+
+    // Validate phone number
+    const phoneInput = document.getElementById('phoneInput');
+    const phonePattern = /^\d{10}$/;
+    if (!phonePattern.test(phoneInput.value)) {
+        isValid = false;
+        phoneInput.classList.add('is-invalid');
+    } else {
+        phoneInput.classList.remove('is-invalid');
+    }
+    return isValid;
 }
