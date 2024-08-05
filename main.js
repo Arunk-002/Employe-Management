@@ -74,15 +74,20 @@ empForm.addEventListener('submit',(event)=>{
         }
     }
 })
+
+// user search 
 const searchBar=document.getElementById("user-search");
 searchBar.addEventListener("input",(event)=>{
     event.stopPropagation();
     let value=event.target.value.toLowerCase();
+    let seachedUser=[];
     employeeArraay.forEach((user)=>{
-        if(user.firstName.toLowerCase().includes(value)||user.lastName.toLowerCase().includes(value)){
-            console.log(user.firstName,user.lastName);
+        if(user.firstName.toLowerCase().includes(value)||user.lastName.toLowerCase().includes(value)||user.email.includes(value)){
+            seachedUser.unshift(user);
         }
     })
+    renderButtonPagination(seachedUser.length)
+    renderData(0,limit,seachedUser);
 })
 // --------------------------------------------------------------------------
 // -------------------user-related functions----------------
@@ -244,39 +249,41 @@ function popMessage(message){
         icon: message.icon
       });
 }
-function renderData(start,end) {    
+function renderData(start, end, searcheduser) {    
     let tableBody = document.getElementById("employee-table");
-            let row = '';
-            for (let i = start; i< end; i++) { 
-                row+=` 
-                    <tr class ="employee-details-row align-items-center" >
-                        <th scope="row">${i+1}</th>
-                        <td>
-                            <img class="emp-img-icon" src="http://localhost:3000/employees/${employeeArraay[i].id}/avatar" alt="employee icon">
-                            ${employeeArraay[i].firstName} ${employeeArraay[i].lastName}
-                        </td>
-                        <td>${employeeArraay[i].email}</td>
-                        <td>${employeeArraay[i].phone}</td>
-                        <td>${employeeArraay[i].gender}</td>
-                        <td>${employeeArraay[i].dob}</td>
-                        <td>${employeeArraay[i].country}</td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-ellipsis"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="./employee.html?id=${employeeArraay[i].id}">view</a></li>
-                                    <li><a class="dropdown-item" onclick="editEmployee('${employeeArraay[i].id}')" href="#">Edit</a></li>
-                                    <li><a class="dropdown-item" onclick="deleteEmployee('${employeeArraay[i].id}')" href="#">Delete</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                `
-                tableBody.innerHTML=row;
-            }
+    let row = '';
+    let dataArray = searcheduser && searcheduser.length > 0 ? searcheduser : employeeArraay;
+    for (let i = start; i < end && i < dataArray.length; i++) { 
+        row += ` 
+            <tr class="employee-details-row align-items-center">
+                <th scope="row">${i + 1}</th>
+                <td>
+                    <img class="emp-img-icon" src="http://localhost:3000/employees/${dataArray[i].id}/avatar" alt="employee icon">
+                    ${dataArray[i].firstName} ${dataArray[i].lastName}
+                </td>
+                <td>${dataArray[i].email}</td>
+                <td>${dataArray[i].phone}</td>
+                <td>${dataArray[i].gender}</td>
+                <td>${dataArray[i].dob}</td>
+                <td>${dataArray[i].country}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./employee.html?id=${dataArray[i].id}">View</a></li>
+                            <li><a class="dropdown-item" onclick="editEmployee('${dataArray[i].id}')" href="#">Edit</a></li>
+                            <li><a class="dropdown-item" onclick="deleteEmployee('${dataArray[i].id}')" href="#">Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }
+    tableBody.innerHTML = row;
 }
+
 function pgLimitFinder(){
     limit=parseInt(document.getElementById('pg-limit').value);
     renderButtonPagination(employeeArraay.length);

@@ -75,9 +75,9 @@ hr{
     color: #FFFFFF !important;
 }
 .footer-content{
-    flex: 1;
+    /* flex: 1; */
     /* border-top: 2px solid black; */
-    border-top: 2px solid #707eae67 !important;
+    /* border-top: 2px solid #707eae67 !important;  */
 }
 .footer-content p{
     margin: 0 !important;
@@ -110,7 +110,7 @@ hr{
     height:71pc !important;
 }
 #pg-limit{
-    width: 5% !important;
+    width: 13% !important;
 }
 .block-1-scroll{
     height: 95vh;

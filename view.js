@@ -34,8 +34,12 @@ function deleteEmployee(empId) {
             window.location.href="./index.html"
         })
     } catch (error) {
-        console.log(error);
-        
+        message={
+            title:"Oop's",
+            text:"Employee Not Deleted",
+            icon:"error"
+        }
+        popMessage(message);        
     }
     
 }
@@ -51,7 +55,6 @@ async function PutEmployee(fd,id) {
         body: JSON.stringify(user)
     });
     let Responsemessage = await response.json();
-    console.log(Responsemessage);
     if (user.avatar.size!=0) {
         await imageUpload(id,fd);
     }
