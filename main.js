@@ -32,11 +32,12 @@ dataGeter() // Data fetcher fucnction
 function renderButtonPagination(empLenght) {
     let btnNo=Math.ceil(empLenght/limit);   
     let pgBtns=document.getElementById('pg-btns');
-    pgBtns.innerHTML='';
+    pgBtns.innerHTML=`<li onclick="pagination(${0})" class="page-item"><a class="page-link" href="#"> <i class="fa-solid fa-angles-left"></i> </a></li>`;
     for (let index = 0; index < btnNo; index++) {
         pgBtns.innerHTML+=`<li onclick="pagination(${index})" class="page-item"><a class="page-link" href="#">${index+1}</a></li>`;
     }
-}
+    pgBtns.innerHTML+=`<li onclick="pagination(${btnNo-1})" class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angles-right"></i></a></li>`;
+}   
 function pagination(btNo){
     let strtIndex= btNo*limit;
     let endIndex=strtIndex+limit;
@@ -56,6 +57,7 @@ parentDiv.addEventListener("click",(event)=>{
     }
 })
 
+// emp form listener
 const empForm = document.getElementById("emp-form");
 empForm.addEventListener('submit',(event)=>{
     event.preventDefault();
@@ -89,6 +91,21 @@ searchBar.addEventListener("input",(event)=>{
     renderButtonPagination(seachedUser.length)
     renderData(0,limit,seachedUser);
 })
+
+//impage preview
+document.getElementById('upload').addEventListener('input',(e)=>{
+    e.stopPropagation();
+    let img =e.target.files[0];
+    if (img) {
+        let url = URL.createObjectURL(img);
+        document.getElementById('image-Preview').style.display='block';
+        document.getElementById('image-Preview').src=url;       
+    } else {
+        console.log('no');
+        
+    }
+})
+
 // --------------------------------------------------------------------------
 // -------------------user-related functions----------------
 async function postEmployee(fd){
@@ -225,6 +242,10 @@ function cancelForm() {
     overlay.style.display="none";
 }
 function populateForm(data) {
+    if(data.avatar){ 
+        document.getElementById('image-Preview').style.display='block';
+        document.getElementById('image-Preview').src = `http://localhost:3000/employees/${data.id}/avatar`;
+    }
     document.getElementById('salutationSelect').value = data.salutation;
     document.getElementById('firstNameInput').value = data.firstName;
     document.getElementById('lastNameInput').value = data.lastName;
@@ -240,7 +261,6 @@ function populateForm(data) {
     document.getElementById('stateSelect').value = data.state;
     document.getElementById('cityInput').value = data.city;
     document.getElementById('zipInput').value = data.zip;
-    
 }
 function popMessage(message){
     Swal.fire({
@@ -256,7 +276,7 @@ function renderData(start, end, searcheduser) {
     for (let i = start; i < end && i < dataArray.length; i++) { 
         row += ` 
             <tr class="employee-details-row align-items-center">
-                <th scope="row">${i + 1}</th>
+                <th scope="row">#0${i + 1}</th>
                 <td>
                     <img class="emp-img-icon" src="http://localhost:3000/employees/${dataArray[i].id}/avatar" alt="employee icon">
                     ${dataArray[i].firstName} ${dataArray[i].lastName}
