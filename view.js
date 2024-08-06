@@ -1,5 +1,5 @@
 let empData;
-async function gettEmployee() {
+async function gettEmployee() {// To fetch the user from the url of the page.
     const params = new URLSearchParams(window.location.search);
     const employeeId = params.get('id');
     let response = await fetch(`http://localhost:3000/employees/${employeeId}`);
@@ -7,7 +7,7 @@ async function gettEmployee() {
     populateData(empData);
 }
 gettEmployee()
-function populateData(emp){
+function populateData(emp){//function to populate the details of employee in th page
     let d= new Date();
     document.getElementById('employee-image').src =`http://localhost:3000/employees/${emp.id}/avatar`;
     document.getElementById('employee-name').textContent = emp.firstName+emp.lastName;
@@ -20,7 +20,7 @@ function populateData(emp){
     document.getElementById('employee-address').textContent = emp.address;
     document.getElementById('employee-username').textContent = emp.username;
 }
-function deleteEmployee(empId) {
+function deleteEmployee(empId) {//deletes the employee with the specified id. then relocates to the next page
     try {
         fetch(`http://localhost:3000/employees/${empId}`,{
             method:'DELETE'
@@ -44,7 +44,7 @@ function deleteEmployee(empId) {
     
 }
 
-async function PutEmployee(fd,id) {
+async function PutEmployee(fd,id) {//to make changes to the employee with the specified id.
     const user= Object.fromEntries(fd);
     user.dob= user.dob.split("-").reverse().join("-");
     let response = await fetch(`http://localhost:3000/employees/${id}`,{
@@ -59,6 +59,7 @@ async function PutEmployee(fd,id) {
         await imageUpload(id,fd);
     }
     cancelForm();
+    await gettEmployee();
     message={
         title:"updated",
         text:"Employee Updated Succesfully",
@@ -66,7 +67,7 @@ async function PutEmployee(fd,id) {
     }
     popMessage(message);
 }
-async function imageUpload(userId, formData) {
+async function imageUpload(userId, formData) {// TO upload images with specified id and formdata
     let imgResponse = await fetch(`http://localhost:3000/employees/${userId}/avatar`, {
         method: 'POST',
         body: formData
@@ -78,8 +79,8 @@ async function imageUpload(userId, formData) {
         console.error('Error uploading avatar:', imgResult.error);
     }
 }
-
-let main = document.getElementById("main");
+//Add event listeners----------------------
+let main = document.getElementById("main");//captures all events occuring.
 main.addEventListener('click',(e)=>{
     if (e.target.id==="del-btn") {
         deleteEmployee(empData.id)
@@ -89,9 +90,8 @@ main.addEventListener('click',(e)=>{
         cancelForm()
     }
 })
-const empForm = document.getElementById("emp-form");
+const empForm = document.getElementById("emp-form");//Form sumbmit event.
 empForm.addEventListener('submit',(event)=>{
-    console.log(event)
     event.preventDefault();
     const fd = new FormData(empForm);
     let valid=validateForm()
@@ -105,15 +105,29 @@ empForm.addEventListener('submit',(event)=>{
     
     
 })
-function isFormDataEqual(formData, curData) {
+document.getElementById('upload').addEventListener('input',(e)=>{//Image Preview listner.
+    e.stopPropagation();
+    let img =e.target.files[0];
+    if (img) {
+        let url = URL.createObjectURL(img);
+        document.getElementById('image-Preview').style.display='block';
+        document.getElementById('image-Preview').src=url;       
+    } else {
+        console.log('no');
+        
+    }
+})
+// ---------------------------------------------------
+function isFormDataEqual(formData, curData) {// This  functions takes formdata and curdata
+    //checks if there are ny chhanges in the form.
     const formObject = Object.fromEntries(formData);
-    const adjustedCurData = { ...curData };
-    if (adjustedCurData.dob) {
+    const adjustedCurData = { ...curData }; //this is a spread operator which is used to make an exact copy of curdata.
+    if (adjustedCurData.dob) {// reverses the dob format for  checking with the curdata. 
         const [year, month, day] = adjustedCurData.dob.split('-');
         adjustedCurData.dob = `${day}-${month}-${year}`;
     }
     for (const key in formObject) {
-        if (key !== "avatar" && formObject[key] !== adjustedCurData[key]) {
+        if (key !== "avatar" && formObject[key] !== adjustedCurData[key]) { // skips the avatar key for checking.
             return false;
         }
     }
@@ -201,3 +215,4 @@ function validateForm() {
     }
     return isValid;
 }
+
