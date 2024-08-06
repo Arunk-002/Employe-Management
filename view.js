@@ -144,6 +144,8 @@ function isFormDataEqual(formData, curData) {// This  functions takes formdata a
 
 // ----------------form functions-----------------
 function cancelForm() {
+    document.getElementById('image-Preview').src='';  
+    document.getElementById('image-Preview').style.display='none';  
     const formDiv = document.getElementById("emp-form-container-div");
     const overlay = document.getElementById("overlay");
     document.getElementById('emp-form').reset();

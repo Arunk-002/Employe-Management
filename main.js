@@ -32,15 +32,26 @@ dataGeter() // Data fetcher fucnction
 function renderButtonPagination(empLenght) {
     let btnNo=Math.ceil(empLenght/limit);   
     let pgBtns=document.getElementById('pg-btns');
+    prev_id='btn-0';
     pgBtns.innerHTML=`<li onclick="pagination(${0})" class="page-item"><a class="page-link" href="#"> <i class="fa-solid fa-angles-left"></i> </a></li>`;
     for (let index = 0; index < btnNo; index++) {
-        pgBtns.innerHTML+=`<li onclick="pagination(${index})" class="page-item"><a class="page-link" href="#">${index+1}</a></li>`;
+        pgBtns.innerHTML+=`<li onclick="pagination(${index})"class="page-item"><a id="btn-${index}"  class="page-link" href="#">${index+1}</a></li>`;
     }
+    document.getElementById('btn-0').classList.add("pg-btn-active");
     pgBtns.innerHTML+=`<li onclick="pagination(${btnNo-1})" class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angles-right"></i></a></li>`;
-}   
+    
+}
+
+let prev_id;
 function pagination(btNo){
+    if(prev_id){
+        document.getElementById(prev_id).classList.remove('pg-btn-active');
+    }
+    prev_id =`btn-${btNo}`;
     let strtIndex= btNo*limit;
     let endIndex=strtIndex+limit;
+    let b =document.getElementById(`btn-${btNo}`);
+    b.classList.toggle('pg-btn-active')
     if (endIndex>employeeArraay.length-1) {
         renderData(strtIndex,employeeArraay.length);
     } else {
@@ -102,39 +113,50 @@ document.getElementById('upload').addEventListener('input',(e)=>{
         document.getElementById('image-Preview').src=url;       
     } else {
         console.log('no');
-        
     }
 })
 
 // --------------------------------------------------------------------------
 // -------------------user-related functions----------------
 async function postEmployee(fd){
-    const userobj= Object.fromEntries(fd);
-    userobj.dob= userobj.dob.split("-").reverse().join("-");
-    let response= await fetch("http://localhost:3000/employees",{
-        method:'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userobj)
-    })
-    let result = await response.json();
-    if(result.message=='Employee created successfully'){
-        cancelForm();
-        if (userobj.avatar.size!=0) {
-            await imageUpload(id,fd);
+    try {
+        const userobj= Object.fromEntries(fd);
+        userobj.dob= userobj.dob.split("-").reverse().join("-");
+        let response= await fetch("http://localhost:3000/employees",{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userobj)
+        })
+        let result = await response.json();
+        if(result.id){
+            if (userobj.avatar.size!=0) {
+                await imageUpload(result.id,fd);
+            }
+            userobj.id=result.id;
+            employeeArraay.unshift(userobj);
+            renderData(0,2);
+            cancelForm();
+            message={
+                title:"New Employee",
+                text:"Employee Created Succesfully",
+                icon:"success"
+            }
+            popMessage(message);
+
+        }else{
+            message={
+                title:"Oop's",
+                text:"Employee not Created",
+                icon:"error"
+            }
+            popMessage(message);
         }
-        message={
-            title:"New Employee",
-            text:"Employee Created Succesfully",
-            icon:"success"
-        }
-        popMessage(message);
-        dataGeter();
-    }else{
+    } catch (error) {
         message={
             title:"Oop's",
-            text:"Employee not Created",
+            text:"server Error",
             icon:"error"
         }
         popMessage(message);
@@ -142,15 +164,24 @@ async function postEmployee(fd){
     
 }
 async function imageUpload(userId, formData) {
-    let imgResponse = await fetch(`http://localhost:3000/employees/${userId}/avatar`, {
-        method: 'POST',
-        body: formData
-    });
-    const imgResult = await imgResponse.json();
-    if (imgResult.success) {
-        console.log('Avatar uploaded successfully');
-    } else {
-        console.error('Error uploading avatar:', imgResult.error);
+    try {
+        let imgResponse = await fetch(`http://localhost:3000/employees/${userId}/avatar`, {
+            method: 'POST',
+            body: formData
+        });
+        const imgResult = await imgResponse.json();
+        if (imgResult.success) {
+            console.log('Avatar uploaded successfully');
+        } else {
+            console.error('Error uploading avatar:', imgResult.error);
+        }
+    } catch (error) {
+        message={
+            title:"Oop's",
+            text:"server Error",
+            icon:"error"
+        }
+        popMessage(message);
     }
 }
 
@@ -158,17 +189,33 @@ function deleteEmployee(empId) {
     try {
         fetch(`http://localhost:3000/employees/${empId}`,{
             method:'DELETE'
-        }).then((response)=>{
+        }).then(async(response)=>{
+            let m= await response.json()
             message={
                 title:"Deleted",
                 text:"Employee Deleted Succesfully",
                 icon:"success"
             }
+            console.log(m);
+            if (m.message=="Employee deleted successfully") {
+                for (let index = 0; index < employeeArraay.length; index++) {
+                    if (employeeArraay[index].id==empId) {
+                        employeeArraay.splice(index,1);
+                        
+                    }
+                    
+                }
+            }
             popMessage(message);
-            dataGeter();
+            renderData(0,2)
         })
     } catch (error) {
-        
+        message={
+            title:"Oop's",
+            text:"server Error",
+            icon:"error"
+        }
+        popMessage(message);
     }
     
 }
@@ -181,20 +228,33 @@ async function editEmployee(empId) {
     populateForm(empData);
 }
 async function PutEmployee(fd,id) {
-    const user= Object.fromEntries(fd);
-    user.dob= user.dob.split("-").reverse().join("-");
+    try {
+        const Cuser= Object.fromEntries(fd);
+    Cuser.dob= Cuser.dob.split("-").reverse().join("-");
     let response = await fetch(`http://localhost:3000/employees/${id}`,{
         method:"PUT",
         headers:{
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(Cuser)
     });
     let message = await response.json();
-    if (user.avatar.size!=0) {
-        await imageUpload(id,fd);
+    if (message.message=="Employee updated successfully") {
+        console.log(employeeArraay);
+        for (let index = 0; index < employeeArraay.length; index++) {
+            if (employeeArraay[index].id==id) {
+                Cuser.id=id;
+                employeeArraay.splice(index,1,Cuser);
+                console.log(employeeArraay[index]);
+                renderData(0,2)
+            }
+            
+        }
     }
-    dataGeter();
+    if (Cuser.avatar.size!=0) {
+        await imageUpload(id,fd);
+        renderData(0,2)
+    }
     cancelForm();
     message={
         title:"Updated",
@@ -202,6 +262,14 @@ async function PutEmployee(fd,id) {
         icon:"success"
     }
     popMessage(message);
+    } catch (error) {
+        message={
+            title:"Oop's",
+            text:"server Error",
+            icon:"error"
+        }
+        popMessage(message);
+    }
 }
 
 function isFormDataEqual(formData, curData) {
@@ -235,6 +303,8 @@ function popEmloyeeForm() {
     overlay.style.display="block";
 }
 function cancelForm() {
+    document.getElementById('image-Preview').src='';  
+    document.getElementById('image-Preview').style.display='none';  
     const formDiv = document.getElementById("emp-form-container-div");
     const overlay = document.getElementById("overlay");
     document.getElementById('emp-form').reset();

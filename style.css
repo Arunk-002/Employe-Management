@@ -82,6 +82,10 @@ hr{
     background-color: #707eae55 !important;
     border: none !important;
 }
+.pg-btn-active{
+    background: blue !important;
+    color: white !important;
+}
 /* ---------------------------------------------------------------------- */
 /* ---------------------------employee-form------------------------------ */
 :root{
